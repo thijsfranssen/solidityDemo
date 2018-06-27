@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<markers>
+    <marker id="1" name="4,1 º" lat="52.099453" lng="4.263326" />
+    <marker id="2" name="4,5 º" lat="52.070025" lng="4.349711" />
+    <marker id="3" name="2,1 º" lat="52.022306" lng="4.595376" />
+    <marker id="4" name="2,5 º" lat="52.045049" lng="5.065346" />
+    <marker id="5" name="8,1 º" lat="51.949958" lng="5.132118" />
+    <marker id="6" name="8,1 º" lat="51.823434" lng="5.258810" />
+    <marker id="7" name="10,4 º" lat="51.701753" lng="5.351530" />
+    <marker id="8" name="4,1 º" lat="51.536138" lng="5.380946" />	
+    <marker id="9" name="4,4 º" lat="51.312116" lng="5.604755" />
+    <marker id="10" name="3,8 º" lat="51.243687" lng="5.696791" />	
+</markers>
