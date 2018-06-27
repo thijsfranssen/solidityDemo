@@ -9,9 +9,9 @@ Zorg dat de volgende onderdelen geinstalleerd zijn:
 * Remix IDE werkend met Ropsten
 
 ## 1 Webserver
-... Kopieer de map naar de htdocs folder van een webserver zodat deze benaderbaar is (bijvoorbeeld via localhost/solidityDemo).
+Kopieer de map naar de htdocs folder van een webserver zodat deze benaderbaar is (bijvoorbeeld via localhost/solidityDemo).
 
-... Open index.html in een editor
+Open index.html in een editor
 
 ## 2 Contract
 Kopieer het contract (transport.sol) in de folder _contract in RemixIDE en deploy deze naar Ropsten. Kopieer het contract address en plak het op regel 146 van index.html.
