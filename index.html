@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+
+
+        <h1><img src="" width="100px" />Zending temperatuur monitor</h1>
+        <h2 id="instructor"></h2>
+		<span id="insTrans"></span>
+		<hr>
+
+        <img id="loader" src="https://loading.io/spinners/double-ring/lg.double-ring-spinner.gif">
+
+        <label for="name" class="col-lg-2 control-label">Zending #:</label>
+        <input id="zending" value="1" type="text">
+
+        <label for="name" class="col-lg-2 control-label">Lattitude</label>
+        <input id="lat" value="52.37269" type="text">
+
+        <label for="name" class="col-lg-2 control-label">Longitude</label>
+        <input id="long" value="4.89299" type="text">
+
+        <label for="name" class="col-lg-2 control-label">Temperatuur</label>
+        <input id="temp" value="7,2" type="text">
+
+        <button id="button">Update tranport</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+
+        if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            //web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+			web3 = new Web3(new Web3.providers.HttpProvider("http://testmsvrpi67.eastus.cloudapp.azure.com:8545"));
+        }
+
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+
+        var TransportContract = web3.eth.contract([
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_zendingID",
+				"type": "uint256"
+			},
+			{
+				"name": "_lat",
+				"type": "string"
+			},
+			{
+				"name": "_long",
+				"type": "string"
+			},
+			{
+				"name": "_temp",
+				"type": "string"
+			}
+		],
+		"name": "setTransport",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "zendingID",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"name": "lat",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "long",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "temp",
+				"type": "string"
+			}
+		],
+		"name": "TransportSet",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "getTransport",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+]);
+    
+        var Transport = TransportContract.at('0xd96f8321d4980d79727ac87d60fe4566ce34cb2e');
+        //var Transport = TransportContract.at('0x68831f47e78bbe2227ab93f55e7ca5a7fb5bf4fd');
+		console.log(Transport);
+
+        var updateTransportEvent = Transport.TransportSet({},'latest');
+		
+        updateTransportEvent.watch(function (error, result) {
+            if (result) {
+                $("#loader").hide();
+				$("#insTrans").html('Block hash: ' + result.blockHash);
+                $("#instructor").html('Zending #: ' +  (result.args.zendingID) + '<br> Lat: ' +  (result.args.lat) + '<br> Long: ' +  (result.args.long) + '<br> Temp: ' +  (result.args.temp) + ' &#8451;');
+            } else {
+                $("#loader").hide();
+                console.log(error);
+            }
+        });
+
+        $("#button").click(function () {
+            Transport.setTransport($("#zending").val(), $("#lat").val(), $("#long").val(), $("#temp").val(), (err, res) => {
+               if (err) {
+                   $("#loader").hide();
+               }
+           });
+            $("#loader").show();
+        });
+			
+    </script>
+
+</body>
+</html>
